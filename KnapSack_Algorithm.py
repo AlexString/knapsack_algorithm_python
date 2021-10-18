@@ -16,42 +16,44 @@ def KnapSack(KW, it_w, it_v, method='max'):
 	"""
 	# Checking if length is correct
 	if (len(it_w) != len(it_v)):
-		print("Error: Discrepancy between items weight length and items values length, does not match.")
+		print("Error in KnapSack function: Discrepancy between items weight length and items values length, does not match.")
 		return
 
 	it_n = len(it_w)	
 
-	# Defining max/min method.
+	# Defining max/min method to KnapSackCriterion.
 	if ( method == 'max' ):
+		message = "maximum"
 		discarder = -1
 		knapSackCriterion = max
 	elif ( method == 'min' ):
+		message = "minimum"
 		discarder = max(it_w) + 1000
 		knapSackCriterion = min
 	else:
-		print("Error in KnapSackMethod: invalid method input.")
+		print("Error in KnapSack function: invalid method input.")
 		return
 
 	dummy_array = [0] * it_n # Creating an array of it_n length filled with 0's
 	dummy_weightArray = list(it_w) # Using a copy of the it_w array
 
 	current_weight = 0
-	minimum_weight_list = [] # Final array
+	final_weight_values_list = list() # Final values will end in this list
 
 	# [ KnapSack alorithm ]
 	while( current_weight < KW ):
-		actual_min_value = knapSackCriterion(dummy_weightArray) # Using criterion to evaluate KnapSack algorithm
-		actual_min_value_position = dummy_weightArray.index(actual_min_value) # Getting value position
+		actual_value = knapSackCriterion(dummy_weightArray) # Using criterion from KnapSack algorithm
+		actual_value_position = dummy_weightArray.index(actual_value) # Getting value position
 
-		minimum_weight_list.append(actual_min_value) # Adding it to array
-		dummy_weightArray[actual_min_value_position] = discarder # Discard that value
-		
 		# If the current weight + the next calculated item is still less than the KnapSack weight:
-		if ( (current_weight + it_w[actual_min_value_position]) <= KW):
-			current_weight += it_w[actual_min_value_position]
-			dummy_array[actual_min_value_position] = 1
+		if ( (current_weight + it_w[actual_value_position]) <= KW):
+			current_weight += it_w[actual_value_position]
+			dummy_array[actual_value_position] = 1
 		else:
 			break
+		
+		final_weight_values_list.append(actual_value) # Adding it to array
+		dummy_weightArray[actual_value_position] = discarder # Discard that value
 
 	# Finished algorithm - Now printing results
 	total_value = 0
@@ -65,8 +67,8 @@ def KnapSack(KW, it_w, it_v, method='max'):
 	print("Grabbed values are:")
 	print(items_grabbed)
 
-	print("Calculated minimum weight list:")
-	print(minimum_weight_list)
+	print("Calculated " + message + " weight list:")
+	print(final_weight_values_list)
 
 	print("Total weight is: " + str(current_weight))
 	print("Value items sumatory is: " + str(total_value))
@@ -90,6 +92,6 @@ def Main():
 	KnapSack(knapSack_MaximumWeight,
 		items_weight, 
 		items_values, 
-		"min")
+		"max")
 
 Main()
