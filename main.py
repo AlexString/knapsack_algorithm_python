@@ -94,4 +94,5 @@ def Main():
 		items_values, 
 		"max")
 
-Main()
+if __name__ == 'main':
+    Main()
