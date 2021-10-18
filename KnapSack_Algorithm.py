@@ -5,7 +5,7 @@ Description:
 Algorithm that simply implements the knapsack problem with maximum and minimum weight criterion.
 """
 
-def KnapSack_Min_weight(KW, it_w, it_v, method='max'):
+def KnapSack(KW, it_w, it_v, method='max'):
 	"""
 	Parameters:
 		KW: Knapsack maxweight 
@@ -87,7 +87,7 @@ def Main():
 
 	print("\n\n")
 
-	KnapSack_Min_weight(knapSack_MaximumWeight,
+	KnapSack(knapSack_MaximumWeight,
 		items_weight, 
 		items_values, 
 		"min")
