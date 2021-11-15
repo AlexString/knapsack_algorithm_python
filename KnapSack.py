@@ -1,4 +1,5 @@
 from Strategy import Strategy
+from Strategy import MaxValueStrategy
 
 class KnapSack():
     
@@ -26,6 +27,10 @@ class KnapSack():
         
         dummy_array = [0] * it_n # Creating an array of it_n length filled with 0's
         dummy_weightArray = list(it_w) # Using a copy of the it_w array
+
+        # If Strategy is MaxValueStrategy it needs to divide values per unit
+        if isinstance(self._strategy, MaxValueStrategy):
+            dummy_weightArray = self._strategy.divideValuesPerUnit(it_v,it_w)
 
         current_weight = 0
         final_weight_values_list = list() # Final values will end in this list

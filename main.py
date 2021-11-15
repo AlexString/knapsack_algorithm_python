@@ -6,7 +6,7 @@ Algorithm that simply implements the knapsack problem with maximum and minimum w
 """
 
 from KnapSack import KnapSack
-from Strategy import MinStrategy, MaxStrategy
+from Strategy import MinStrategy, MaxStrategy, MaxValueStrategy
 
 def Main():
 	# VALUES HERE
@@ -23,8 +23,8 @@ def Main():
 
 	print("\n\n")
 
-	# You can switch between using MinStrategy or MaxStrategy
-	knapSack = KnapSack(MinStrategy())
+	# You can switch between using MinStrategy / MaxStrategy / MaxValueStrategy
+	knapSack = KnapSack(MaxValueStrategy())
 	knapSack.execute(knapSack_MaximumWeight, items_weight, items_values)
 
 Main()
