@@ -6,7 +6,7 @@ This script handles the Knapsack problem with the 3 modes:
 - Considering minimum weight values.
 - Considering max values.
 
-Also, [@DieGopherLT](https://github.com/DieGopherLT) implemented the Strategy pattern, which makes it more easy to add and implement each algorithm mode.
+Also, [@DieGopherLT](https://github.com/DieGopherLT) implemented the Strategy pattern.
 
 # Quick view:
 
