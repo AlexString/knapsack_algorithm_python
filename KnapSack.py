@@ -1,5 +1,6 @@
 from Strategy import Strategy
 from Strategy import MaxValueStrategy
+from Bag import Bag
 
 class KnapSack():
     
@@ -8,7 +9,8 @@ class KnapSack():
         self.discarder = 0
         self.knapSackCriterion = None
         self.message = ""
-        
+
+        self.bag = None
     @property
     def strategy(self) -> Strategy:
         return self._strategy
@@ -16,7 +18,13 @@ class KnapSack():
     @strategy.setter
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
-        
+    
+    def printData(self):
+        if self.bag is None:
+            print("Error: cannot print total values, try using execute() first")
+            return
+        self.bag.printBag()
+
     def execute(self, KW, it_w, it_v) -> None:
         if len(it_w) is not len(it_v):
             print("Error: Discrepancy between items weight length and items values length, does not match.")
@@ -41,7 +49,7 @@ class KnapSack():
             actual_value_position = dummy_weightArray.index(actual_value) # Getting value position
 
             # If the current weight + the next calculated item is still less than the KnapSack weight:
-            if ( (current_weight + it_w[actual_value_position]) <= KW):
+            if (current_weight + it_w[actual_value_position]) <= KW:
                 current_weight += it_w[actual_value_position]
                 dummy_array[actual_value_position] = 1
             else:
@@ -52,18 +60,14 @@ class KnapSack():
 
         # Finished algorithm - Now printing results
         total_value = 0
-        items_grabbed = list()
+        values_grabbed = list()
 
         for i in range(len(dummy_array)): # Getting data from auxiliar dummy_array
-            if ( dummy_array[i] != 0 ):
-                items_grabbed.append(it_v[i])
+            if dummy_array[i] != 0:
+                values_grabbed.append(it_v[i])
                 total_value += it_v[i]
 
-        print("Grabbed values are:")
-        print(items_grabbed)
-
-        print("Calculated " + self.message + " weight list:")
-        print(final_weight_values_list)
-
-        print("Total weight is: " + str(current_weight))
-        print("Value items sumatory is: " + str(total_value))
+        # Finished algorithm - setting data, printing at last.
+        self.bag = Bag(values_grabbed, final_weight_values_list, total_value, current_weight)
+        print("Algorithm: '", self.message ,"' has been used. printing now.")
+        self.printData()

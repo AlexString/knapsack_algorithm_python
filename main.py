@@ -18,10 +18,10 @@ def Main():
 	print("Items weight:")
 	print(items_weight)
 
-	print("Items values:")
+	print("\nItems values:")
 	print(items_values)
 
-	print("\n\n")
+	print("\n")
 
 	# You can switch between using MinStrategy / MaxStrategy / MaxValueStrategy
 	knapSack = KnapSack(MaxValueStrategy())
