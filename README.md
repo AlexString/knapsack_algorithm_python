@@ -8,6 +8,14 @@ This script handles the Knapsack problem with the 3 modes:
 
 Also, [@DieGopherLT](https://github.com/DieGopherLT) implemented the Strategy pattern.
 
+# Run
+Linux
+```bash
+git clone https://github.com/AlexString/knapsack_algorithm_python
+cd knapsack_algorithm_python
+python3 main.py
+```
+
 # Quick view:
 
 ## **Strategy.py**
