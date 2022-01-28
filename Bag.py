@@ -7,6 +7,7 @@ class Bag():
 		self.totalWeight = t_weight
 
 	def printBag(self):
+		print("-- BAG --")
 		print("** VALUES **")
 		print(self.Values)
 

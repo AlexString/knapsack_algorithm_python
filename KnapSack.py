@@ -7,7 +7,7 @@ class KnapSack():
     def __init__(self, strategy: Strategy) -> None:
         self._strategy = strategy
         self.discarder = 0
-        self.knapSackCriterion = None
+        self.criterion_function = None
         self.message = ""
 
         self.bag = None
@@ -25,49 +25,56 @@ class KnapSack():
             return
         self.bag.printBag()
 
-    def execute(self, KW, it_w, it_v) -> None:
-        if len(it_w) is not len(it_v):
+    def execute(self, knapsack_max_weight, items_weight, items_values) -> None:
+        if len(items_weight) is not len(items_values):
             print("Error: Discrepancy between items weight length and items values length, does not match.")
             return
 
-        it_n = len(it_w)
-        self.message, self.discarder, self.knapSackCriterion = self._strategy.knapSack(it_w)
-        
-        dummy_array = [0] * it_n # Creating an array of it_n length filled with 0's
-        dummy_weightArray = list(it_w) # Using a copy of the it_w array
+        items_length = len(items_weight)
 
-        # If Strategy is MaxValueStrategy it needs to divide values per unit
-        if isinstance(self._strategy, MaxValueStrategy):
-            dummy_weightArray = self._strategy.divideValuesPerUnit(it_v,it_w)
+        # Get variables from strategy
+        self.message, self.discarder, self.criterion_function = self._strategy.knapSack(items_weight)
+        
+        dummy_array = [0] * items_length
+        items_weight_copy = list(items_weight)
+
+        if isinstance(self._strategy, MaxValueStrategy): # it needs to divide values per unit
+            items_weight_copy = self._strategy.divideValuesPerUnit(items_values,items_weight)
 
         current_weight = 0
-        final_weight_values_list = list() # Final values will end in this list
+        final_items_weight_values = list()
 
         # [ KnapSack alorithm ]
-        while( current_weight < KW ):
-            actual_value = self.knapSackCriterion(dummy_weightArray) # Using criterion from KnapSack algorithm
-            actual_value_position = dummy_weightArray.index(actual_value) # Getting value position
+        while( current_weight < knapsack_max_weight ):
+            actual_value = self.criterion_function(items_weight_copy) # max/min
+            actual_value_position = items_weight_copy.index(actual_value)
 
-            # If the current weight + the next calculated item is still less than the KnapSack weight:
-            if (current_weight + it_w[actual_value_position]) <= KW:
-                current_weight += it_w[actual_value_position]
+            # current weight + the next calculated weight
+            future_weight = current_weight + items_weight[actual_value_position]
+
+            # if future weight is still less than the KnapSack max weight:
+            if future_weight <= knapsack_max_weight: # Add it and discard that value from the dummy array
+                current_weight = future_weight
                 dummy_array[actual_value_position] = 1
             else:
                 break
             
-            final_weight_values_list.append(actual_value) # Adding it to array
-            dummy_weightArray[actual_value_position] = self.discarder # Discard that value
+            # Add the value and discard it.
+            final_items_weight_values.append(actual_value)
+            items_weight_copy[actual_value_position] = self.discarder
 
         # Finished algorithm - Now printing results
         total_value = 0
         values_grabbed = list()
 
-        for i in range(len(dummy_array)): # Getting data from auxiliar dummy_array
+        # Using dummy array to get data
+        for i in range(len(dummy_array)): 
             if dummy_array[i] != 0:
-                values_grabbed.append(it_v[i])
-                total_value += it_v[i]
+                values_grabbed.append(items_values[i])
+                total_value += items_values[i]
 
-        # Finished algorithm - setting data, printing at last.
-        self.bag = Bag(values_grabbed, final_weight_values_list, total_value, current_weight)
+        # Setting data and printing.
+        self.bag = Bag(values_grabbed, final_items_weight_values, total_value, current_weight)
+
         print("Algorithm: '", self.message ,"' has been used. printing now.")
         self.printData()
