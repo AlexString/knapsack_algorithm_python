@@ -20,6 +20,9 @@ class KnapSack():
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
     
+    def isMaxValueStrategy(self,strategy):
+        True if isinstance(strategy, MaxValueStrategy) else False
+
     def printBagContent(self):
         if self.bag is None:
             print("Error: cannot print total values, try using execute() first")
@@ -44,7 +47,7 @@ class KnapSack():
         dummy_array = makeDummyArray(items_length)
         items_weight_copy = makeCopy(items_weight)
 
-        if isinstance(self._strategy, MaxValueStrategy): # it needs to divide values per unit
+        if self.isMaxValueStrategy(self._strategy): # it needs to divide values per unit
             items_weight_copy = self._strategy.divideValuesPerUnit(items_values,items_weight)
 
         current_weight = 0
