@@ -14,12 +14,13 @@ class KnapSack():
     @property
     def strategy(self) -> Strategy:
         return self._strategy
-    
+    def getStrategy(self, weight):
+        return self._strategy.knapSack(weight)
     @strategy.setter
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
     
-    def printData(self):
+    def printBagContent(self):
         if self.bag is None:
             print("Error: cannot print total values, try using execute() first")
             return
@@ -33,7 +34,7 @@ class KnapSack():
         items_length = len(items_weight)
 
         # Get variables from strategy
-        self.message, self.discarder, self.criterion_function = self._strategy.knapSack(items_weight)
+        self.message, self.discarder, self.criterion_function = self.getStrategy(items_weight)
         
         dummy_array = [0] * items_length
         items_weight_copy = list(items_weight)
@@ -77,4 +78,4 @@ class KnapSack():
         self.bag = Bag(values_grabbed, final_items_weight_values, total_value, current_weight)
 
         print("Algorithm: '", self.message ,"' has been used. printing now.")
-        self.printData()
+        self.printBagContent()
