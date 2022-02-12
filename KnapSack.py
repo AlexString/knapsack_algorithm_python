@@ -34,6 +34,8 @@ class KnapSack():
             return [0] * length
         def makeCopy(array):
             return list(array)
+        def discardValue(array, position, discarder=1):
+            array[position] = discarder
 
         if len(items_weight) is not len(items_values):
             print("Error: Discrepancy between items weight length and items values length, does not match.")
@@ -62,15 +64,15 @@ class KnapSack():
             future_weight = current_weight + items_weight[actual_value_position]
 
             # if future weight is still less than the KnapSack max weight:
-            if future_weight <= knapsack_max_weight: # Add it and discard that value from the dummy array
+            if future_weight <= knapsack_max_weight: 
                 current_weight = future_weight
-                dummy_array[actual_value_position] = 1
+                discardValue(dummy_array, actual_value_position)
             else:
                 break
             
             # Add the value and discard it.
             final_items_weight_values.append(actual_value)
-            items_weight_copy[actual_value_position] = self.discarder
+            discardValue(items_weight_copy, actual_value_position, self.discarder)
 
         # Finished algorithm - Now printing results
         total_value = 0
