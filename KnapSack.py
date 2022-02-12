@@ -29,6 +29,8 @@ class KnapSack():
     def execute(self, knapsack_max_weight, items_weight, items_values) -> None:
         def makeDummyArray(length):
             return [0] * length
+        def makeCopy(array):
+            return list(array)
 
         if len(items_weight) is not len(items_values):
             print("Error: Discrepancy between items weight length and items values length, does not match.")
@@ -40,7 +42,7 @@ class KnapSack():
         self.message, self.discarder, self.criterion_function = self.getStrategy(items_weight)
         
         dummy_array = makeDummyArray(items_length)
-        items_weight_copy = list(items_weight)
+        items_weight_copy = makeCopy(items_weight)
 
         if isinstance(self._strategy, MaxValueStrategy): # it needs to divide values per unit
             items_weight_copy = self._strategy.divideValuesPerUnit(items_values,items_weight)
