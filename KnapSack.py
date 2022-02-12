@@ -27,6 +27,9 @@ class KnapSack():
         self.bag.printBag()
 
     def execute(self, knapsack_max_weight, items_weight, items_values) -> None:
+        def makeDummyArray(length):
+            return [0] * length
+
         if len(items_weight) is not len(items_values):
             print("Error: Discrepancy between items weight length and items values length, does not match.")
             return
@@ -36,7 +39,7 @@ class KnapSack():
         # Get variables from strategy
         self.message, self.discarder, self.criterion_function = self.getStrategy(items_weight)
         
-        dummy_array = [0] * items_length
+        dummy_array = makeDummyArray(items_length)
         items_weight_copy = list(items_weight)
 
         if isinstance(self._strategy, MaxValueStrategy): # it needs to divide values per unit
